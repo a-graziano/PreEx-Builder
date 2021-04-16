@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/plugins/pre_ex_plan" >
+        <file>icon.png</file>
+    </qresource>
+</RCC>
