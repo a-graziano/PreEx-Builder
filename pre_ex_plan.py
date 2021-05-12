@@ -190,9 +190,9 @@ class PreExPlan():
             callback=self.run,
             parent=self.iface.mainWindow())
 
-        icon_path = ':/plugins/pre_ex_plan/trowel.svg'
+        icon_path_1 = ':/plugins/pre_ex_plan/trowel.svg'
         self.add_action(
-            icon_path,
+            icon_path_1,
             text=self.tr(u'Merge DXF/CSV'),
             callback=self.importJob,
             parent=self.iface.mainWindow())
@@ -245,6 +245,7 @@ class PreExPlan():
                         QgsField("Area", QVariant.Double, 'double',10,2),
                         QgsField("Length", QVariant.Double, 'double',10,2),
                         QgsField("Diameter", QVariant.Double, 'double', 10,2),
+                        QgsField("Phase",QVariant.String,'string', 30),
                         QgsField("X", QVariant.Double, 'double', 10, 3),
                         QgsField("Y",QVariant.Double, 'double', 10, 3),
                         QgsField("Percentage", QVariant.Int),
@@ -301,16 +302,16 @@ class PreExPlan():
         pr.addAttributes([QgsField("Interpr", QVariant.String)])
 
         vl.updateFields()
-        iface.messageBar().pushWidget(widget_5, Qgis.Info, duration = 3)
+        iface.messageBar().pushWidget(widget_1, Qgis.Info, duration = 3)
 
     def areacolumn(self):
-        widget_6 = iface.messageBar().createMessage("Info Column", "Area added")
+        widget_15 = iface.messageBar().createMessage("Info Column", "Area added")
         vl = iface.activeLayer()
         pr = vl.dataProvider()
         pr.addAttributes([QgsField("Area", QVariant.Double, 'double',10,2)])
 
         vl.updateFields()
-        iface.messageBar().pushWidget(widget_1, Qgis.Info, duration = 3)
+        iface.messageBar().pushWidget(widget_15, Qgis.Info, duration = 3)
 
     def lengthcolumn(self):
         widget_2 = iface.messageBar().createMessage("Info Column", "Length added")
@@ -596,15 +597,15 @@ class PreExPlan():
     def unique_id(self):
         widget = iface.messageBar().createMessage("ID generated", "Well Done")
 
-        vlayer=iface.activeLayer()
+        vl=iface.activeLayer()
 
         ## join ID field
         myField1 = QgsField('ID', QVariant.Int, 'int', 1,0)
-        vlayer.startEditing()
-        vlayer.dataProvider().addAttributes([myField1])
-        vlayer.updateFields()
-        ID=vlayer.dataProvider().fieldNameIndex('ID')
-        vlayer.commitChanges()
+        vl.startEditing()
+        vl.dataProvider().addAttributes([myField1])
+        vl.updateFields()
+        ID=vl.dataProvider().fieldNameIndex('ID')
+        vl.commitChanges()
 
 
         expression3 = QgsExpression('$id')
@@ -618,7 +619,7 @@ class PreExPlan():
             vl.updateFeature(f)
             vl.commitChanges()
 
-        vlayer.commitChanges()
+        vl.commitChanges()
         iface.messageBar().pushWidget(widget, Qgis.Success, duration = 3)
 
 # add the Interpr column with the same code present in the Layer Column
@@ -707,6 +708,38 @@ class PreExPlan():
         iface.addToolBarIcon(action)
 
 
+    def style_phasing(self):
+       layer = iface.activeLayer()
+
+       myStyle = QgsStyle().defaultStyle()
+       dictionary = {
+                "1":(QColor(230, 230, 250, 150),'Phase 1'),
+                "2":(QColor(255, 160, 122, 150),'Phase 2 '),
+                "3":(QColor(173, 216, 230, 150),'Phase 3'),
+                "4":(QColor(112, 128, 144, 150), 'Phase 4'),
+                "5":(QColor(139, 69, 19,150),'Phase 5'),
+                "6":(QColor(60, 179, 113, 150),'Phase 6'),
+                "7":(QColor(255, 228, 181, 150),'Phase 7'),
+                "8":(QColor(211, 211, 211, 150),'Phase 8'),
+                "0":(QColor(229, 182, 54, 150), 'Unclassified')
+
+                }
+
+       categories = []
+
+       for item,(color,label) in dictionary.items():
+           symbol = QgsSymbol.defaultSymbol(layer.geometryType())
+           symbol.setColor(QColor(color))
+           category = QgsRendererCategory(item,symbol,label)
+           categories.append(category)
+
+       renderer = QgsCategorizedSymbolRenderer('phasing', categories)
+
+       layer.setRenderer(renderer)
+       layer.triggerRepaint()
+       QgsProject.instance().addMapLayer(layer)
+
+
     #--------------------------------------------------------------------------
 
     def run(self):
@@ -751,6 +784,7 @@ class PreExPlan():
             self.dockwidget.pushButton_23.clicked.connect(self.selected_feat_copy)
             self.dockwidget.pushButton_24.clicked.connect(self.importJob)
             self.dockwidget.pushButton_25.clicked.connect(self.est_secPlan)
+            self.dockwidget.pushButton_26.clicked.connect(self.style_phasing)
 
             # show the dockwidget
             # TODO: fix to allow choice of dock location
