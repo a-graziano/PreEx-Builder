@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>429</width>
-    <height>808</height>
+    <height>794</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -106,6 +106,10 @@
      <property name="text">
       <string>3. Polygonize</string>
      </property>
+     <property name="icon">
+      <iconset>
+       <normaloff>../../../../../../../../../Desktop/shape+polygon-131983801517304767_64.png</normaloff>../../../../../../../../../Desktop/shape+polygon-131983801517304767_64.png</iconset>
+     </property>
     </widget>
    </widget>
    <widget class="QGroupBox" name="groupBox_2">
@@ -149,6 +153,10 @@
      </property>
      <property name="text">
       <string>Pre Ex</string>
+     </property>
+     <property name="icon">
+      <iconset>
+       <normaloff>../../../../../../../../../Desktop/lens+alignment-1324760596170772685_64.png</normaloff>../../../../../../../../../Desktop/lens+alignment-1324760596170772685_64.png</iconset>
      </property>
     </widget>
     <widget class="QPushButton" name="pushButton_18">
@@ -294,6 +302,10 @@
      <property name="text">
       <string>Classify Pre Ex</string>
      </property>
+     <property name="icon">
+      <iconset>
+       <normaloff>../../../../../../../../../Desktop/color+paint+38-131983707753940541_64.png</normaloff>../../../../../../../../../Desktop/color+paint+38-131983707753940541_64.png</iconset>
+     </property>
     </widget>
     <widget class="QPushButton" name="pushButton_19">
      <property name="geometry">
@@ -343,6 +355,25 @@
      </property>
      <property name="text">
       <string>Classify Slot(time)</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_26">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>60</y>
+       <width>121</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Gill Sans</family>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Phasing</string>
      </property>
     </widget>
    </widget>
@@ -782,6 +813,10 @@
      </property>
      <property name="text">
       <string>INTERVENTION</string>
+     </property>
+     <property name="icon">
+      <iconset>
+       <normaloff>../../../../../../../../../Desktop/trowel.png</normaloff>../../../../../../../../../Desktop/trowel.png</iconset>
      </property>
     </widget>
    </widget>
