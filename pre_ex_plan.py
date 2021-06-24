@@ -468,9 +468,10 @@ class PreExPlan():
         widget_8 = iface.messageBar().createMessage("Measure Calculated", "Well Done")
         vl = iface.activeLayer()
 
-        expression1 = QgsExpression('''case when "Interpr" = 'Linear' then $perimeter/100/2/2
-                                    when "Interpr" = 'Grave' then $perimeter/100/2/2
-                                    when "Interpr" = 'Structure' then $perimeter/100/2/2
+        expression1 = QgsExpression('''case when "Interpr" = 'Linear' then $perimeter/2
+                                    when "Interpr" = 'Grave' then $perimeter/2
+                                    when "Interpr" = 'Structure' then $perimeter/2
+                                    when "Interpr" = 'Furrow' then $perimeter/2
                                     end ''')
         expression2 = QgsExpression('''case when "Interpr" = 'Pit' then  2 * sqrt("Area"/pi())
                                     when "Interpr" = 'Posthole' then 2 * sqrt("Area"/pi())
@@ -617,7 +618,7 @@ class PreExPlan():
             context.setFeature(f)
             f['ID'] = expression3.evaluate(context)
             vl.updateFeature(f)
-            vl.commitChanges()
+        
 
         vl.commitChanges()
         iface.messageBar().pushWidget(widget, Qgis.Success, duration = 3)
