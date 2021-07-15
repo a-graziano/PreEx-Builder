@@ -22,19 +22,21 @@
  ***************************************************************************/
 """
 
-import os
-import sys
 from urllib import parse
-import datetime
+from datetime import datetime as dt
 from PyQt5 import QtCore, QtGui
+from PyQt5.QtCore import *
+from PyQt5.QtGui import *
 from PyQt5.QtGui import QColor
+from PyQt5 import QtWidgets
 from qgis.PyQt.QtCore import QSettings, QTranslator, QCoreApplication, QVariant
 from qgis.PyQt import QtGui
 from qgis.PyQt.QtGui import QIcon
-from qgis.PyQt.QtWidgets import QAction, QFileDialog
-from qgis.core import QgsProject,QgsVectorLayer, QgsField, Qgis, QgsStyle, QgsSymbol, QgsRendererCategory, QgsCategorizedSymbolRenderer, QgsMessageLog, QgsVectorDataProvider, QgsExpression, QgsExpressionContext, QgsExpressionContextUtils, QgsVectorFileWriter, QgsFeatureRequest, QgsProcessingProvider, QgsProcessingAlgorithm
+from qgis.PyQt.QtWidgets import QAction, QFileDialog, QInputDialog, QLineEdit
+from qgis.core import QgsProject,QgsVectorLayer, QgsField, Qgis, QgsStyle, QgsSymbol, QgsRendererCategory, QgsCategorizedSymbolRenderer, QgsMessageLog, QgsVectorDataProvider, QgsExpression, QgsExpressionContext, QgsExpressionContextUtils, QgsVectorFileWriter, QgsFeatureRequest, QgsProcessingProvider, QgsProcessingAlgorithm, QgsPoint, QgsFeature, QgsGeometry, QgsFillSymbol
 from qgis.PyQt.QtCore import QSettings, QTranslator, QCoreApplication, Qt
 from qgis.PyQt.QtWidgets import QAction
+from PyQt5.Qt import *
 from qgis.utils import iface
 # Initialize Qt resources from file resources.py
 from .resources import *
@@ -42,10 +44,12 @@ from .resources import *
 # Import the code for the DockWidget
 from .pre_ex_plan_dockwidget import PreExPlanDockWidget
 import os
+import pandas as pd
 import qgis
 import processing
 import os.path
-from .importDaily import *
+import sys
+
 
 class PreExPlan():
     """QGIS Plugin Implementation."""
@@ -190,14 +194,6 @@ class PreExPlan():
             callback=self.run,
             parent=self.iface.mainWindow())
 
-        icon_path_1 = ':/plugins/pre_ex_plan/trowel.svg'
-        self.add_action(
-            icon_path_1,
-            text=self.tr(u'Merge DXF/CSV'),
-            callback=self.importJob,
-            parent=self.iface.mainWindow())
-
-
     #--------------------------------------------------------------------------
 
     def onClosePlugin(self):
@@ -232,16 +228,15 @@ class PreExPlan():
 
 #Generate a new memory layer
     def new_shp(self):
-        vl = QgsVectorLayer("polygon", "Pre Ex Plan", "memory")
+        vl = QgsVectorLayer("polygon", "(mitig_area)_PreExPlan", "memory")
+
+        vl.startEditing()
 
         pr = vl.dataProvider()
-        pr.addAttributes([QgsField("site", QVariant.String,'string',30),
+        pr.addAttributes([QgsField("Interpr", QVariant.String),
+                        QgsField("site", QVariant.String,'string',30),
                         QgsField("mitig_area", QVariant.String),
-                        QgsField("class",QVariant.String,'string',30),
-                        QgsField("id", QVariant.Int,'int', 1,0),
                         QgsField("label", QVariant.String),
-                        QgsField("category",QVariant.String, 'string',30),
-                        QgsField("Interpr", QVariant.String),
                         QgsField("Area", QVariant.Double, 'double',10,2),
                         QgsField("Length", QVariant.Double, 'double',10,2),
                         QgsField("Diameter", QVariant.Double, 'double', 10,2),
@@ -250,39 +245,55 @@ class PreExPlan():
                         QgsField("Y",QVariant.Double, 'double', 10, 3),
                         QgsField("Percentage", QVariant.Int),
                         QgsField("m2ToDig", QVariant.Double,'double',10,2 ),
-                        QgsField("created", QVariant.Date),
-                        QgsField("creator", QVariant.String, 'string',30),
                         ])
         vl.updateFields()
 
-        with edit(vl):
-            for f in vl.getFeatures():
-                f["class"] = 'group'
-                f["mitig_area"] = text
-                f["created"] = datetime.datetime.now().strftime('%y-%m-%dT%H:%M:%S')
+        myStyle = QgsStyle().defaultStyle()
+        dictionary = {
+                "Linear":(QColor('lavender'),'Linear 10%'),
+                "Pit":(QColor('lightsalmon'),'Pit 50%'),
+                "Posthole":(QColor('lightblue'),'Posthole 50%'),
+                "Cremation":(QColor('slategray'), 'Cremation 100%'),
+                "Grave":(QColor('saddlebrown'),'Grave 100%'),
+                "Structure":(QColor('beige'),'Structure'),
+                "Spread":(QColor('moccasin'),'Spread'),
+                "Unclear":(QColor('lightgray'),'Unclear'),
+                "Furrow":(QColor('linen'),'Furrow')
+                }
 
-                layer.updateFeature(f)
+        categories = []
+
+        for item,(color,label) in dictionary.items():
+            symbol = QgsSymbol.defaultSymbol(vl.geometryType())
+            symbol.setColor(QColor(color))
+            category = QgsRendererCategory(item,symbol,label)
+            categories.append(category)
+
+        renderer = QgsCategorizedSymbolRenderer('Interpr', categories)
+
+        vl.setRenderer(renderer)
+        vl.triggerRepaint()
+
 
         QgsProject.instance().addMapLayer(vl)
 
 
 #Generate a new memory layer for the slot shp
     def slot_shp(self):
-        vl = QgsVectorLayer("polygon", "Slot", "memory")
+        vl = QgsVectorLayer("polygon", "(mitig_area)_Slot", "memory")
 
         pr = vl.dataProvider()
         pr.addAttributes([QgsField("site", QVariant.String, 'string',30),
                         QgsField("mitig_area", QVariant.String),
                         QgsField("status", QVariant.String),
-                        QgsField("time",QVariant.String),
-                        QgsField("created", QVariant.String, 'string', 30),
-                        QgsField("creator", QVariant.String, 'string',30)])
+                        QgsField("time",QVariant.String)])
         vl.updateFields()
 
         QgsProject.instance().addMapLayer(vl)
 
+#Generate a new memory layer for the LOE shp
     def loe_shp(self):
-        vl = QgsVectorLayer("polygon", "LOE", "memory")
+        vl = QgsVectorLayer("polygon", "(mitig_area)_LOE", "memory")
 
         pr = vl.dataProvider()
         pr.addAttributes([QgsField("site", QVariant.String,'string',30),
@@ -292,72 +303,34 @@ class PreExPlan():
 
         vl.updateFields()
 
+
+        symbol = QgsFillSymbol.createSimple({'outline_style':'dash','outline_width':'0.16' ,'color': '255,99,71,0'})
+
+        vl.renderer().setSymbol(symbol)
+
+        vl.triggerRepaint()
+
+
         QgsProject.instance().addMapLayer(vl)
 
+
 #Add the column in the layer for built a personalised shp
-    def addIntrp(self):
-        widget_1 = iface.messageBar().createMessage("Info Column", "Interpr added")
+    def addColum(self):
+        widget_1 = iface.messageBar().createMessage("Geometry & Metrics Column added", "Success")
         vl = iface.activeLayer()
         pr = vl.dataProvider()
-        pr.addAttributes([QgsField("Interpr", QVariant.String)])
+        pr.addAttributes([QgsField("Interpr", QVariant.String),
+                        QgsField("Area", QVariant.Double, 'double',10,2),
+                        QgsField("Length", QVariant.Double, 'double',10,2),
+                        QgsField("Diameter", QVariant.Double, 'double', 10,2),
+                        QgsField("X", QVariant.Double, 'double', 10, 3),
+                        QgsField("Y",QVariant.Double, 'double', 10, 3),
+                        QgsField("Percentage", QVariant.Int),
+                        QgsField("m2ToDig", QVariant.Double,'double',10,2)])
 
         vl.updateFields()
         iface.messageBar().pushWidget(widget_1, Qgis.Info, duration = 3)
 
-    def areacolumn(self):
-        widget_15 = iface.messageBar().createMessage("Info Column", "Area added")
-        vl = iface.activeLayer()
-        pr = vl.dataProvider()
-        pr.addAttributes([QgsField("Area", QVariant.Double, 'double',10,2)])
-
-        vl.updateFields()
-        iface.messageBar().pushWidget(widget_15, Qgis.Info, duration = 3)
-
-    def lengthcolumn(self):
-        widget_2 = iface.messageBar().createMessage("Info Column", "Length added")
-        vl = iface.activeLayer()
-        pr = vl.dataProvider()
-        pr.addAttributes([QgsField("Length", QVariant.Double, 'double',10,2)])
-
-        vl.updateFields()
-        iface.messageBar().pushWidget(widget_2, Qgis.Info, duration = 3)
-
-    def diam(self):
-        widget_3 = iface.messageBar().createMessage("Info Column", "Diameter added")
-        vl = iface.activeLayer()
-        pr = vl.dataProvider()
-        pr.addAttributes([QgsField("Diameter", QVariant.Double, 'double', 10,2)])
-
-        vl.updateFields()
-        iface.messageBar().pushWidget(widget_3, Qgis.Info, duration = 3)
-
-    def coord(self):
-        widget_4 = iface.messageBar().createMessage("Info Column", "Coordinates added")
-        vl = iface.activeLayer()
-        pr = vl.dataProvider()
-        pr.addAttributes([QgsField("X", QVariant.Double, 'double', 10, 3),
-                        QgsField("Y",QVariant.Double, 'double', 10, 3)])
-
-        vl.updateFields()
-        iface.messageBar().pushWidget(widget_4, Qgis.Info, duration = 3)
-
-    def percent(self):
-        widget_5 = iface.messageBar().createMessage("Info Column", "Percentage added")
-        vl = iface.activeLayer()
-        pr = vl.dataProvider()
-        pr.addAttributes([QgsField("Percentage", QVariant.Int)])
-
-        vl.updateFields()
-        iface.messageBar().pushWidget(widget_5, Qgis.Info, duration = 3)
-
-    def digcolumn(self):
-        widget_6 = iface.messageBar().createMessage("Info Column", "m2ToDig added")
-        vl = iface.activeLayer()
-        pr = vl.dataProvider()
-        pr.addAttributes([QgsField("m2ToDig", QVariant.Double,'double',10,2)])
-
-        vl.updateFields()
-        iface.messageBar().pushWidget(widget_6, Qgis.Info, duration = 3)
 
 
 #Classified the layer follow the Interpr field
@@ -373,7 +346,8 @@ class PreExPlan():
                 "Grave":(QColor('saddlebrown'),'Grave 100%'),
                 "Structure":(QColor('beige'),'Structure'),
                 "Spread":(QColor('moccasin'),'Spread'),
-                "Unclear":(QColor('lightgray'),'Unclear')
+                "Unclear":(QColor('lightgray'),'Unclear'),
+                "Furrow":(QColor('linen'),'Furrow')
                 }
 
         categories = []
@@ -385,6 +359,34 @@ class PreExPlan():
             categories.append(category)
 
         renderer = QgsCategorizedSymbolRenderer('Interpr', categories)
+
+        layer.setRenderer(renderer)
+        layer.triggerRepaint()
+        QgsProject.instance().addMapLayer(layer)
+
+#Classified the slot layer by period
+    def style_feat_period(self):
+        layer = iface.activeLayer()
+
+        myStyle = QgsStyle().defaultStyle()
+        dictionary = {
+                "BRONZE AGE":(QColor('#DAB3E2'),'Bronze Age'),
+                "IRON AGE":(QColor('#B3E2CD'),'Iron Age'),
+                "ROMAN":(QColor('#E6F5C9'),'Roman'),
+                "MEDIEVAL":(QColor('#FDCDAC'), 'Medieval'),
+                "POST MEDIEVAL":(QColor('#F4CAE4'),'Post medieval'),
+                "UNKNOWN":(QColor('#F1E2CC'),'Unknown')
+                }
+
+        categories = []
+
+        for item,(color,label) in dictionary.items():
+            symbol = QgsSymbol.defaultSymbol(layer.geometryType())
+            symbol.setColor(QColor(color))
+            category = QgsRendererCategory(item,symbol,label)
+            categories.append(category)
+
+        renderer = QgsCategorizedSymbolRenderer('Period', categories)
 
         layer.setRenderer(renderer)
         layer.triggerRepaint()
@@ -463,17 +465,17 @@ class PreExPlan():
         vl.commitChanges()
         iface.messageBar().pushWidget(widget_7, Qgis.Success, duration = 3)
 
-#Calculate the Length and the Diameter
+    #Calculate the Length and the Diameter
     def add_Measure(self,edit):
         widget_8 = iface.messageBar().createMessage("Measure Calculated", "Well Done")
         vl = iface.activeLayer()
 
-        expression1 = QgsExpression('''case when "Interpr" = 'Linear' then $perimeter/2
+        expression2 = QgsExpression('''case when "Interpr" = 'Linear' then $perimeter/2
                                     when "Interpr" = 'Grave' then $perimeter/2
                                     when "Interpr" = 'Structure' then $perimeter/2
                                     when "Interpr" = 'Furrow' then $perimeter/2
                                     end ''')
-        expression2 = QgsExpression('''case when "Interpr" = 'Pit' then  2 * sqrt("Area"/pi())
+        expression3 = QgsExpression('''case when "Interpr" = 'Pit' then  2 * sqrt("Area"/pi())
                                     when "Interpr" = 'Posthole' then 2 * sqrt("Area"/pi())
                                     when "Interpr" = 'Cremation' then 2 * sqrt("Area"/pi())
                                     end ''')
@@ -484,8 +486,8 @@ class PreExPlan():
 
         for f in vl.getFeatures():
             context.setFeature(f)
-            f['Length'] = expression1.evaluate(context)
-            f['Diameter'] = expression2.evaluate(context)
+            f['Length'] = expression2.evaluate(context)
+            f['Diameter'] = expression3.evaluate(context)
             vl.updateFeature(f)
         vl.commitChanges()
 
@@ -594,6 +596,8 @@ class PreExPlan():
 
         iface.messageBar().pushWidget(widget_11, Qgis.Success, duration = 3)
 
+
+
 #Generate an ID just follow the row number
     def unique_id(self):
         widget = iface.messageBar().createMessage("ID generated", "Well Done")
@@ -618,13 +622,12 @@ class PreExPlan():
             context.setFeature(f)
             f['ID'] = expression3.evaluate(context)
             vl.updateFeature(f)
-        
+
 
         vl.commitChanges()
         iface.messageBar().pushWidget(widget, Qgis.Success, duration = 3)
 
 # add the Interpr column with the same code present in the Layer Column
-
     def interpr_column(self):
         widget_12 = iface.messageBar().createMessage("Interpretation added", "Well Done")
         vl = iface.activeLayer()
@@ -646,9 +649,28 @@ class PreExPlan():
         vl.commitChanges()
         iface.messageBar().pushWidget(widget_12, Qgis.Success, duration = 3)
 
-# convert the line shp in polygon and add the new layer on the canvas
-    def lineTopoly(self):
-        widget_13 = iface.messageBar().createMessage("Converted", "Well Done")
+
+
+# convert the dxf in polygon shp and add the new layer on the canvas
+    def convertDXF(self):
+        widget_14 = iface.messageBar().createMessage("Success", "Well Done")
+
+        layer = iface.activeLayer()
+
+        feats = [feat for feat in layer.getFeatures()]
+
+        temp = QgsVectorLayer("LineString?crs=epsg:27700",
+                      "PreEx",
+                      "memory")
+
+        temp_data = temp.dataProvider()
+
+        attr = layer.dataProvider().fields().toList()
+        temp_data.addAttributes(attr)
+        temp.updateFields()
+
+        temp_data.addFeatures(feats)
+
 
         input_layer= iface.activeLayer()
 
@@ -658,31 +680,11 @@ class PreExPlan():
 
         result = plan['OUTPUT']
 
+
         QgsProject.instance().addMapLayer(result)
 
-        iface.messageBar().pushWidget(widget_13, Qgis.Success, duration = 3)
-
-# convert the dxf in shp and add the new layer on the canvas
-    def convertDXF(self):
-        widget_14 = iface.messageBar().createMessage("Converted", "Well Done")
-        layer = iface.activeLayer()
-
-        feats = [ feat for feat in layer.getFeatures() ]
-
-        temp = QgsVectorLayer("LineString?crs=epsg:27700",
-                      "PreEx",
-                      "memory")
-
-        QgsProject.instance().addMapLayer(temp)
-
-        temp_data = temp.dataProvider()
-
-        attr = layer.dataProvider().fields().toList()
-        temp_data.addAttributes(attr)
-        temp.updateFields()
-
-        temp_data.addFeatures(feats)
         iface.messageBar().pushWidget(widget_14, Qgis.Success, duration = 3)
+
 
     def duplicate_l(self):
         layer = iface.activeLayer()
@@ -691,22 +693,14 @@ class PreExPlan():
 
         QgsProject.instance().addMapLayer(memory_layer)
 
+
+
     def selected_feat_copy(self):
         layer = iface.activeLayer()
 
         memory_layer = layer.materialize(QgsFeatureRequest().setFilterFids(layer.selectedFeatureIds()))
 
         QgsProject.instance().addMapLayer(memory_layer)
-
-    def importJob(self):
-        widget.show()
-        iface.messageBar().pushMessage('REMEMBER Check for missing Levels')
-        icon = 'trowel.svg'
-        data_dir = os.path.join(':/plugins/pre_ex_plan/trowel.svg', icon)
-        action = QAction('Merge DXF/CSV')
-
-        action.setIcon(QIcon(data_dir))
-        iface.addToolBarIcon(action)
 
 
     def style_phasing(self):
@@ -767,15 +761,8 @@ class PreExPlan():
             self.dockwidget.pushButton_6.clicked.connect(self.addCentroid)
             self.dockwidget.pushButton_5.clicked.connect(self.dig)
             self.dockwidget.pushButton_7.clicked.connect(self.unique_id)
-            self.dockwidget.pushButton_8.clicked.connect(self.addIntrp)
-            self.dockwidget.pushButton_9.clicked.connect(self.areacolumn)
-            self.dockwidget.pushButton_10.clicked.connect(self.lengthcolumn)
-            self.dockwidget.pushButton_11.clicked.connect(self.diam)
-            self.dockwidget.pushButton_12.clicked.connect(self.coord)
-            self.dockwidget.pushButton_13.clicked.connect(self.percent)
-            self.dockwidget.pushButton_14.clicked.connect(self.digcolumn)
+            self.dockwidget.pushButton_8.clicked.connect(self.addColum)
             self.dockwidget.pushButton_15.clicked.connect(self.interpr_column)
-            self.dockwidget.pushButton_16.clicked.connect(self.lineTopoly)
             self.dockwidget.pushButton_17.clicked.connect(self.convertDXF)
             self.dockwidget.pushButton_18.clicked.connect(self.slot_shp)
             self.dockwidget.pushButton_19.clicked.connect(self.style_slot)
@@ -783,9 +770,9 @@ class PreExPlan():
             self.dockwidget.pushButton_21.clicked.connect(self.slot_time)
             self.dockwidget.pushButton_22.clicked.connect(self.duplicate_l)
             self.dockwidget.pushButton_23.clicked.connect(self.selected_feat_copy)
-            self.dockwidget.pushButton_24.clicked.connect(self.importJob)
             self.dockwidget.pushButton_25.clicked.connect(self.est_secPlan)
             self.dockwidget.pushButton_26.clicked.connect(self.style_phasing)
+            self.dockwidget.pushButton_27.clicked.connect(self.style_feat_period)
 
             # show the dockwidget
             # TODO: fix to allow choice of dock location
