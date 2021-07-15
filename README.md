@@ -32,12 +32,10 @@ Classifies the shp according to the time
 
 # Manage DXF Box
 
-Convert the dxf file to a memory shapefile, add the Interpr column that will match with the classify button to classify the features and convert the line layer in polygon
+Convert the dxf file to a memory shapefile and convert it in a polygon memory shapefile
 
-add the Interpr column to be able to classify the dxf file just converted with the pre ex layer
+add the Interpr column to be able to classify(Classify PreEx Button) the new polygon shapfile
 
-
-Polygonize the layer to be able to classify it
 
 
 # Geometry Box
@@ -51,11 +49,6 @@ Calculates how many m2 will have to dig for each element based on the respective
 
 Make an estimate of how many sections and plans will be produced(work in progress)
 
-
-# Merge DXF/CSV Box - INTERVENTION
-
-This button allows you to merge the dxf file and the csv file of a given day in order to recreate the polygons corresponding to the interventions carried out that day
-	NB: the csv file must be reprocessed in order to have the columns divided as follows: POINT_ID, X, Y, Z, Code, file
 
 # Extra Box
 
