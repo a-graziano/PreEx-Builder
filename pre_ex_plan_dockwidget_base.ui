@@ -10,6 +10,11 @@
     <height>782</height>
    </rect>
   </property>
+  <property name="styleSheet">
+   <string notr="true">QWidget {
+	background-color: white;
+}</string>
+  </property>
   <property name="windowTitle">
    <string>Pre Ex Builder</string>
   </property>
@@ -18,7 +23,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>220</y>
+      <y>230</y>
       <width>371</width>
       <height>71</height>
      </rect>
@@ -28,6 +33,12 @@
       <family>Gill Sans</family>
       <pointsize>12</pointsize>
      </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QGroupBox {
+	background-color: white;
+	border: 1px solid gray;
+}</string>
     </property>
     <property name="title">
      <string>Manage DXF</string>
@@ -53,8 +64,13 @@
        <pointsize>12</pointsize>
       </font>
      </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+	background-color: LightGray;
+}</string>
+     </property>
      <property name="text">
-      <string>1. Convert DXF</string>
+      <string>Convert DXF</string>
      </property>
     </widget>
     <widget class="QPushButton" name="pushButton_15">
@@ -78,8 +94,26 @@
        <pointsize>12</pointsize>
       </font>
      </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+	background-color: LightGray;
+}</string>
+     </property>
      <property name="text">
-      <string>2. add Interpr</string>
+      <string>add Interpr</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_9">
+     <property name="geometry">
+      <rect>
+       <x>300</x>
+       <y>31</y>
+       <width>21</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>?</string>
      </property>
     </widget>
    </widget>
@@ -87,7 +121,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>0</y>
+      <y>10</y>
       <width>371</width>
       <height>111</height>
      </rect>
@@ -97,6 +131,12 @@
       <family>Gill Sans</family>
       <pointsize>12</pointsize>
      </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QGroupBox {
+	background-color: white;
+	border: 1px solid gray;
+}</string>
     </property>
     <property name="title">
      <string>Memory Layers</string>
@@ -116,11 +156,107 @@
        <height>20</height>
       </size>
      </property>
+     <property name="palette">
+      <palette>
+       <active>
+        <colorrole role="Button">
+         <brush brushstyle="SolidPattern">
+          <color alpha="255">
+           <red>211</red>
+           <green>211</green>
+           <blue>211</blue>
+          </color>
+         </brush>
+        </colorrole>
+        <colorrole role="Base">
+         <brush brushstyle="SolidPattern">
+          <color alpha="255">
+           <red>211</red>
+           <green>211</green>
+           <blue>211</blue>
+          </color>
+         </brush>
+        </colorrole>
+        <colorrole role="Window">
+         <brush brushstyle="SolidPattern">
+          <color alpha="255">
+           <red>211</red>
+           <green>211</green>
+           <blue>211</blue>
+          </color>
+         </brush>
+        </colorrole>
+       </active>
+       <inactive>
+        <colorrole role="Button">
+         <brush brushstyle="SolidPattern">
+          <color alpha="255">
+           <red>211</red>
+           <green>211</green>
+           <blue>211</blue>
+          </color>
+         </brush>
+        </colorrole>
+        <colorrole role="Base">
+         <brush brushstyle="SolidPattern">
+          <color alpha="255">
+           <red>211</red>
+           <green>211</green>
+           <blue>211</blue>
+          </color>
+         </brush>
+        </colorrole>
+        <colorrole role="Window">
+         <brush brushstyle="SolidPattern">
+          <color alpha="255">
+           <red>211</red>
+           <green>211</green>
+           <blue>211</blue>
+          </color>
+         </brush>
+        </colorrole>
+       </inactive>
+       <disabled>
+        <colorrole role="Button">
+         <brush brushstyle="SolidPattern">
+          <color alpha="255">
+           <red>211</red>
+           <green>211</green>
+           <blue>211</blue>
+          </color>
+         </brush>
+        </colorrole>
+        <colorrole role="Base">
+         <brush brushstyle="SolidPattern">
+          <color alpha="255">
+           <red>211</red>
+           <green>211</green>
+           <blue>211</blue>
+          </color>
+         </brush>
+        </colorrole>
+        <colorrole role="Window">
+         <brush brushstyle="SolidPattern">
+          <color alpha="255">
+           <red>211</red>
+           <green>211</green>
+           <blue>211</blue>
+          </color>
+         </brush>
+        </colorrole>
+       </disabled>
+      </palette>
+     </property>
      <property name="font">
       <font>
        <family>Gill Sans</family>
        <pointsize>12</pointsize>
       </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+	background-color: LightGray;
+}</string>
      </property>
      <property name="text">
       <string>Pre Ex</string>
@@ -151,6 +287,11 @@
        <pointsize>12</pointsize>
       </font>
      </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+	background-color: LightGray;
+}</string>
+     </property>
      <property name="text">
       <string>Slot</string>
      </property>
@@ -175,6 +316,11 @@
        <family>Gill Sans</family>
        <pointsize>12</pointsize>
       </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+	background-color: LightGray;
+}</string>
      </property>
      <property name="text">
       <string>LOE</string>
@@ -201,6 +347,11 @@
        <pointsize>12</pointsize>
       </font>
      </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+	background-color: snow;
+}</string>
+     </property>
      <property name="text">
       <string>Duplicate Layer</string>
      </property>
@@ -226,8 +377,26 @@
        <pointsize>12</pointsize>
       </font>
      </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+	background-color: snow;
+}</string>
+     </property>
      <property name="text">
       <string>Selected Feat Copy</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_10">
+     <property name="geometry">
+      <rect>
+       <x>280</x>
+       <y>70</y>
+       <width>21</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>?</string>
      </property>
     </widget>
    </widget>
@@ -235,7 +404,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>120</y>
+      <y>130</y>
       <width>371</width>
       <height>91</height>
      </rect>
@@ -245,6 +414,12 @@
       <family>Gill Sans</family>
       <pointsize>12</pointsize>
      </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QGroupBox {
+	background-color: white;
+	border: 1px solid gray;
+}</string>
     </property>
     <property name="title">
      <string>Classification</string>
@@ -270,6 +445,11 @@
        <pointsize>12</pointsize>
       </font>
      </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+	background-color: LightGray;
+}</string>
+     </property>
      <property name="text">
       <string>Classify Pre Ex</string>
      </property>
@@ -281,7 +461,7 @@
     <widget class="QPushButton" name="pushButton_19">
      <property name="geometry">
       <rect>
-       <x>260</x>
+       <x>220</x>
        <y>30</y>
        <width>101</width>
        <height>20</height>
@@ -299,6 +479,11 @@
        <pointsize>12</pointsize>
       </font>
      </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+	background-color: snow;
+}</string>
+     </property>
      <property name="text">
       <string>Classify Slot(status)</string>
      </property>
@@ -306,7 +491,7 @@
     <widget class="QPushButton" name="pushButton_21">
      <property name="geometry">
       <rect>
-       <x>260</x>
+       <x>220</x>
        <y>60</y>
        <width>101</width>
        <height>20</height>
@@ -324,6 +509,11 @@
        <pointsize>12</pointsize>
       </font>
      </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+	background-color: snow;
+}</string>
+     </property>
      <property name="text">
       <string>Classify Slot(time)</string>
      </property>
@@ -331,9 +521,9 @@
     <widget class="QPushButton" name="pushButton_26">
      <property name="geometry">
       <rect>
-       <x>20</x>
+       <x>120</x>
        <y>60</y>
-       <width>121</width>
+       <width>51</width>
        <height>21</height>
       </rect>
      </property>
@@ -343,6 +533,11 @@
        <pointsize>12</pointsize>
       </font>
      </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+	background-color: snow;
+}</string>
+     </property>
      <property name="text">
       <string>Phasing</string>
      </property>
@@ -350,8 +545,8 @@
     <widget class="QPushButton" name="pushButton_27">
      <property name="geometry">
       <rect>
-       <x>150</x>
-       <y>30</y>
+       <x>20</x>
+       <y>60</y>
        <width>51</width>
        <height>21</height>
       </rect>
@@ -362,8 +557,65 @@
        <pointsize>11</pointsize>
       </font>
      </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+	background-color: snow;
+}</string>
+     </property>
      <property name="text">
       <string>Period</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_11">
+     <property name="geometry">
+      <rect>
+       <x>80</x>
+       <y>60</y>
+       <width>21</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>?</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_12">
+     <property name="geometry">
+      <rect>
+       <x>180</x>
+       <y>60</y>
+       <width>21</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>?</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_13">
+     <property name="geometry">
+      <rect>
+       <x>330</x>
+       <y>30</y>
+       <width>21</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>?</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_14">
+     <property name="geometry">
+      <rect>
+       <x>330</x>
+       <y>60</y>
+       <width>21</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>?</string>
      </property>
     </widget>
    </widget>
@@ -371,7 +623,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>580</y>
+      <y>600</y>
       <width>191</width>
       <height>61</height>
      </rect>
@@ -381,6 +633,12 @@
       <family>Gill Sans</family>
       <pointsize>12</pointsize>
      </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QGroupBox {
+	background-color: white;
+	border: 1px solid gray;
+}</string>
     </property>
     <property name="title">
      <string>Manage Attribute Table</string>
@@ -406,6 +664,11 @@
        <pointsize>11</pointsize>
       </font>
      </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+	background-color: snow;
+}</string>
+     </property>
      <property name="text">
       <string>Add Column</string>
      </property>
@@ -415,7 +678,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>300</y>
+      <y>310</y>
       <width>371</width>
       <height>71</height>
      </rect>
@@ -425,6 +688,12 @@
       <family>Gill Sans</family>
       <pointsize>12</pointsize>
      </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QGroupBox {
+	background-color: white;
+	border: 1px solid gray;
+}</string>
     </property>
     <property name="title">
      <string>Geometry</string>
@@ -449,6 +718,11 @@
        <family>Gill Sans</family>
        <pointsize>12</pointsize>
       </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+	background-color: snow;
+}</string>
      </property>
      <property name="text">
       <string>Add m2</string>
@@ -475,6 +749,11 @@
        <pointsize>12</pointsize>
       </font>
      </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+	background-color: snow;
+}</string>
+     </property>
      <property name="text">
       <string>Add m and Ø</string>
      </property>
@@ -484,7 +763,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>390</y>
+      <y>400</y>
       <width>371</width>
       <height>80</height>
      </rect>
@@ -494,6 +773,12 @@
       <family>Gill Sans</family>
       <pointsize>12</pointsize>
      </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QGroupBox {
+	background-color: white;
+	border: 1px solid gray;
+}</string>
     </property>
     <property name="title">
      <string>Metrics</string>
@@ -519,6 +804,11 @@
        <pointsize>12</pointsize>
       </font>
      </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+	background-color: snow;
+}</string>
+     </property>
      <property name="text">
       <string>m2 to Dig</string>
      </property>
@@ -538,6 +828,11 @@
        <pointsize>12</pointsize>
       </font>
      </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+	background-color: snow;
+}</string>
+     </property>
      <property name="text">
       <string>Est.Sec/Plan</string>
      </property>
@@ -547,7 +842,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>480</y>
+      <y>500</y>
       <width>191</width>
       <height>81</height>
      </rect>
@@ -557,6 +852,12 @@
       <family>Gill Sans</family>
       <pointsize>12</pointsize>
      </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QGroupBox {
+	background-color: white;
+	border: 1px solid gray;
+}</string>
     </property>
     <property name="title">
      <string>Extra</string>
@@ -582,6 +883,11 @@
        <pointsize>12</pointsize>
       </font>
      </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+	background-color: snow;
+}</string>
+     </property>
      <property name="text">
       <string>Add X&amp;Y</string>
      </property>
@@ -606,6 +912,11 @@
        <family>Gill Sans</family>
        <pointsize>12</pointsize>
       </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+	background-color: snow;
+}</string>
      </property>
      <property name="text">
       <string>ID</string>
