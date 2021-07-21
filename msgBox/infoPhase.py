@@ -15,7 +15,7 @@ class InfoPhase(QMessageBox):
                         "◊  6 \n\n"
                         "◊  7 \n\n"
                         "◊  8 \n\n"
-                        "◊ Unknown")
+                        "◊  0")
 
         self.setIcon(QMessageBox.Information)
 x = InfoPhase()
