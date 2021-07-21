@@ -650,7 +650,7 @@ class PreExPlan():
         self.mw = SlotStat()
         self.mw.show()
 
-    def slot_time(self):
+    def slot_clock(self):
         self.mw = SlotTime()
         self.mw.show()
 
@@ -688,7 +688,7 @@ class PreExPlan():
             self.dockwidget.pushButton_11.clicked.connect(self.info_prd)
             self.dockwidget.pushButton_12.clicked.connect(self.info_phs)
             self.dockwidget.pushButton_13.clicked.connect(self.slot_stat)
-            self.dockwidget.pushButton_14.clicked.connect(self.slot_time)
+            self.dockwidget.pushButton_14.clicked.connect(self.slot_clock)
             self.dockwidget.pushButton_15.clicked.connect(self.interpr_column)
             self.dockwidget.pushButton_17.clicked.connect(self.convertDXF)
             self.dockwidget.pushButton_18.clicked.connect(self.slot_shp)
