@@ -25,6 +25,7 @@
 from urllib import parse
 from datetime import datetime as dt
 from PyQt5 import QtCore, QtGui
+from PyQt5.QtWidgets import QMessageBox
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtGui import QColor
@@ -43,12 +44,19 @@ from .resources import *
 
 # Import the code for the DockWidget
 from .pre_ex_plan_dockwidget import PreExPlanDockWidget
+from .msgBox.infoScript import InfoBox
+from .msgBox.infoSelect import InfoDupl
+from .msgBox.infoPeriod import InfoPer
+from .msgBox.infoPhase import InfoPhase
+from .msgBox.SlotStat import SlotStat
+from .msgBox.SlotTime import SlotTime
 import os
 import pandas as pd
 import qgis
 import processing
 import os.path
 import sys
+
 
 
 class PreExPlan():
@@ -226,7 +234,7 @@ class PreExPlan():
         # remove the toolbar
         del self.toolbar
 
-#Generate a new memory layer
+#Generate a new Pre Ex memory layer
     def new_shp(self):
         vl = QgsVectorLayer("polygon", "(mitig_area)_PreExPlan", "memory")
 
@@ -240,6 +248,7 @@ class PreExPlan():
                         QgsField("Area", QVariant.Double, 'double',10,2),
                         QgsField("Length", QVariant.Double, 'double',10,2),
                         QgsField("Diameter", QVariant.Double, 'double', 10,2),
+                        QgsField("Period", QVariant.String),
                         QgsField("Phase",QVariant.String,'string', 30),
                         QgsField("X", QVariant.Double, 'double', 10, 3),
                         QgsField("Y",QVariant.Double, 'double', 10, 3),
@@ -248,37 +257,14 @@ class PreExPlan():
                         ])
         vl.updateFields()
 
-        myStyle = QgsStyle().defaultStyle()
-        dictionary = {
-                "Linear":(QColor('lavender'),'Linear 10%'),
-                "Pit":(QColor('lightsalmon'),'Pit 50%'),
-                "Posthole":(QColor('lightblue'),'Posthole 50%'),
-                "Cremation":(QColor('slategray'), 'Cremation 100%'),
-                "Grave":(QColor('saddlebrown'),'Grave 100%'),
-                "Structure":(QColor('beige'),'Structure'),
-                "Spread":(QColor('moccasin'),'Spread'),
-                "Unclear":(QColor('lightgray'),'Unclear'),
-                "Furrow":(QColor('linen'),'Furrow')
-                }
+        qml_path = os.path.join(os.path.dirname(__file__), 'style/preex.qml')
 
-        categories = []
-
-        for item,(color,label) in dictionary.items():
-            symbol = QgsSymbol.defaultSymbol(vl.geometryType())
-            symbol.setColor(QColor(color))
-            category = QgsRendererCategory(item,symbol,label)
-            categories.append(category)
-
-        renderer = QgsCategorizedSymbolRenderer('Interpr', categories)
-
-        vl.setRenderer(renderer)
-        vl.triggerRepaint()
-
+        vl.loadNamedStyle(qml_path)
 
         QgsProject.instance().addMapLayer(vl)
 
 
-#Generate a new memory layer for the slot shp
+#Generate a new SLOT memory layer
     def slot_shp(self):
         vl = QgsVectorLayer("polygon", "(mitig_area)_Slot", "memory")
 
@@ -291,7 +277,7 @@ class PreExPlan():
 
         QgsProject.instance().addMapLayer(vl)
 
-#Generate a new memory layer for the LOE shp
+#Generate a new LOE memory layer
     def loe_shp(self):
         vl = QgsVectorLayer("polygon", "(mitig_area)_LOE", "memory")
 
@@ -304,7 +290,7 @@ class PreExPlan():
         vl.updateFields()
 
 
-        symbol = QgsFillSymbol.createSimple({'outline_style':'dash','outline_width':'0.16' ,'color': '255,99,71,0'})
+        symbol = QgsFillSymbol.createSimple({'style_border':'dash dot','width_border':'0.7' ,'color': '255,99,71,0'})
 
         vl.renderer().setSymbol(symbol)
 
@@ -337,113 +323,43 @@ class PreExPlan():
     def style_feat(self):
         layer = iface.activeLayer()
 
-        myStyle = QgsStyle().defaultStyle()
-        dictionary = {
-                "Linear":(QColor('lavender'),'Linear 10%'),
-                "Pit":(QColor('lightsalmon'),'Pit 50%'),
-                "Posthole":(QColor('lightblue'),'Posthole 50%'),
-                "Cremation":(QColor('slategray'), 'Cremation 100%'),
-                "Grave":(QColor('saddlebrown'),'Grave 100%'),
-                "Structure":(QColor('beige'),'Structure'),
-                "Spread":(QColor('moccasin'),'Spread'),
-                "Unclear":(QColor('lightgray'),'Unclear'),
-                "Furrow":(QColor('linen'),'Furrow')
-                }
+        qml_path = os.path.join(os.path.dirname(__file__), 'style/preex.qml')
 
-        categories = []
+        layer.loadNamedStyle(qml_path)
 
-        for item,(color,label) in dictionary.items():
-            symbol = QgsSymbol.defaultSymbol(layer.geometryType())
-            symbol.setColor(QColor(color))
-            category = QgsRendererCategory(item,symbol,label)
-            categories.append(category)
-
-        renderer = QgsCategorizedSymbolRenderer('Interpr', categories)
-
-        layer.setRenderer(renderer)
-        layer.triggerRepaint()
         QgsProject.instance().addMapLayer(layer)
+
 
 #Classified the slot layer by period
     def style_feat_period(self):
         layer = iface.activeLayer()
 
-        myStyle = QgsStyle().defaultStyle()
-        dictionary = {
-                "BRONZE AGE":(QColor('#DAB3E2'),'Bronze Age'),
-                "IRON AGE":(QColor('#B3E2CD'),'Iron Age'),
-                "ROMAN":(QColor('#E6F5C9'),'Roman'),
-                "MEDIEVAL":(QColor('#FDCDAC'), 'Medieval'),
-                "POST MEDIEVAL":(QColor('#F4CAE4'),'Post medieval'),
-                "UNKNOWN":(QColor('#F1E2CC'),'Unknown')
-                }
+        qml_path = os.path.join(os.path.dirname(__file__), 'style/period.qml')
 
-        categories = []
+        layer.loadNamedStyle(qml_path)
 
-        for item,(color,label) in dictionary.items():
-            symbol = QgsSymbol.defaultSymbol(layer.geometryType())
-            symbol.setColor(QColor(color))
-            category = QgsRendererCategory(item,symbol,label)
-            categories.append(category)
-
-        renderer = QgsCategorizedSymbolRenderer('Period', categories)
-
-        layer.setRenderer(renderer)
-        layer.triggerRepaint()
         QgsProject.instance().addMapLayer(layer)
 
 #Classified the slot layer by status
     def style_slot(self):
         layer = iface.activeLayer()
 
-        myStyle = QgsStyle().defaultStyle()
-        dictionary = {
-                "complete":(QColor('paleTurquoise'),'complete'),
-                "ongoing":(QColor('peachpuff'),'ongoing'),
-                "to be done":(QColor('dimgrey'),'to be done'),
-                }
+        qml_path = os.path.join(os.path.dirname(__file__), 'style/slot_stat.qml')
 
-        categories = []
+        layer.loadNamedStyle(qml_path)
 
-        for item,(color,label) in dictionary.items():
-            symbol = QgsSymbol.defaultSymbol(layer.geometryType())
-            symbol.setColor(QColor(color))
-            symbol.setOpacity(0.8)
-            symbol.symbolLayer(0).setStrokeStyle(Qt.PenStyle(Qt.DashDotLine))
-            category = QgsRendererCategory(item,symbol,label)
-            categories.append(category)
-
-        renderer = QgsCategorizedSymbolRenderer('status', categories)
-
-        layer.setRenderer(renderer)
-        layer.triggerRepaint()
         QgsProject.instance().addMapLayer(layer)
+
+
 
 #Classified the slot layer by time
     def slot_time(self):
         layer = iface.activeLayer()
 
-        myTime = QgsStyle().defaultStyle()
-        dict = {
-            "1":(QColor('FireBrick'),'0 to 0.5 day'),
-            "2":(QColor('LimeGreen'),'0.5 to 1 day'),
-            "3":(QColor('Gold'),'1 to 2 days'),
-            "4":(QColor('Violet'),'+2 days')
-            }
-        cat = []
+        qml_path = os.path.join(os.path.dirname(__file__), 'style/slot_time.qml')
 
-        for item,(color,label) in dict.items():
-            symbol = QgsSymbol.defaultSymbol(layer.geometryType())
-            symbol.setColor(QColor(color))
-            symbol.setOpacity(0.8)
-            symbol.symbolLayer(0).setStrokeStyle(Qt.PenStyle(Qt.DashDotLine))
-            category = QgsRendererCategory(item,symbol,label)
-            cat.append(category)
+        layer.loadNamedStyle(qml_path)
 
-        renderer = QgsCategorizedSymbolRenderer('time', cat)
-
-        layer.setRenderer(renderer)
-        layer.triggerRepaint()
         QgsProject.instance().addMapLayer(layer)
 
 
@@ -704,35 +620,40 @@ class PreExPlan():
 
 
     def style_phasing(self):
-       layer = iface.activeLayer()
+        layer = iface.activeLayer()
 
-       myStyle = QgsStyle().defaultStyle()
-       dictionary = {
-                "1":(QColor(230, 230, 250, 150),'Phase 1'),
-                "2":(QColor(255, 160, 122, 150),'Phase 2 '),
-                "3":(QColor(173, 216, 230, 150),'Phase 3'),
-                "4":(QColor(112, 128, 144, 150), 'Phase 4'),
-                "5":(QColor(139, 69, 19,150),'Phase 5'),
-                "6":(QColor(60, 179, 113, 150),'Phase 6'),
-                "7":(QColor(255, 228, 181, 150),'Phase 7'),
-                "8":(QColor(211, 211, 211, 150),'Phase 8'),
-                "0":(QColor(229, 182, 54, 150), 'Unclassified')
+        qml_path = os.path.join(os.path.dirname(__file__), 'style/phasing.qml')
 
-                }
+        layer.loadNamedStyle(qml_path)
 
-       categories = []
+        QgsProject.instance().addMapLayer(layer)
 
-       for item,(color,label) in dictionary.items():
-           symbol = QgsSymbol.defaultSymbol(layer.geometryType())
-           symbol.setColor(QColor(color))
-           category = QgsRendererCategory(item,symbol,label)
-           categories.append(category)
 
-       renderer = QgsCategorizedSymbolRenderer('phasing', categories)
+# Functions to call all the message boxes
+    def info2(self):
+        self.mw = InfoBox()
+        self.mw.show()
 
-       layer.setRenderer(renderer)
-       layer.triggerRepaint()
-       QgsProject.instance().addMapLayer(layer)
+    def infoSel(self):
+        self.mw = InfoDupl()
+        self.mw.show()
+
+    def info_prd(self):
+        self.mw = InfoPer()
+        self.mw.show()
+
+    def info_phs(self):
+        self.mw = InfoPhase()
+        self.mw.show()
+
+    def slot_stat(self):
+        self.mw = SlotStat()
+        self.mw.show()
+
+    def slot_time(self):
+        self.mw = SlotTime()
+        self.mw.show()
+
 
 
     #--------------------------------------------------------------------------
@@ -762,6 +683,12 @@ class PreExPlan():
             self.dockwidget.pushButton_5.clicked.connect(self.dig)
             self.dockwidget.pushButton_7.clicked.connect(self.unique_id)
             self.dockwidget.pushButton_8.clicked.connect(self.addColum)
+            self.dockwidget.pushButton_9.clicked.connect(self.info2)
+            self.dockwidget.pushButton_10.clicked.connect(self.infoSel)
+            self.dockwidget.pushButton_11.clicked.connect(self.info_prd)
+            self.dockwidget.pushButton_12.clicked.connect(self.info_phs)
+            self.dockwidget.pushButton_13.clicked.connect(self.slot_stat)
+            self.dockwidget.pushButton_14.clicked.connect(self.slot_time)
             self.dockwidget.pushButton_15.clicked.connect(self.interpr_column)
             self.dockwidget.pushButton_17.clicked.connect(self.convertDXF)
             self.dockwidget.pushButton_18.clicked.connect(self.slot_shp)
