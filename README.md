@@ -4,7 +4,7 @@ This plugin allows you to manage dxf files that are exported from GPS, convert t
 
 # Memory Layer Box
 
-Generates a memory file where the columns are already created in order to be linked with ARK and displays it on the canvas
+Generates a memory file where the columns are already created and displays it on the canvas
 
 <ul>
 	<li>Pre Ex</li>
@@ -19,7 +19,7 @@ It is possible to duplicate the active layer and duplicate the selected features
 # Classification Box
 
 Classifies the shp according to interpretation
-	Linear, Pit, Posthole, Cremation, Grave, Structure, Spread, Unclear
+	Linear, Pit, Posthole, Cremation, Grave, Structure, Spread, Furrow, Unclear
 	
 
 Classifies the shp according to the status
