@@ -11,11 +11,6 @@ class SlotTime(QMessageBox):
                         "• 2        \n\n"
                         "• 3        \n\n"
                         "• 4        \n\n"
-                        "• 5        \n\n"
-                        "• 6        \n\n"
-                        "• 7        \n\n"
-                        "• 8        \n\n"
-                        "• Unknown  \n\n"
                         )
 
         self.setIcon(QMessageBox.Information)
