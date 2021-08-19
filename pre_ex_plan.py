@@ -9,7 +9,7 @@
         begin                : 2020-10-27
         git sha              : $Format:%H$
         copyright            : (C) 2020 by Alessio Graziano
-        email                : alessio.graz@gmail.com
+        email                : a.graziano@lparchaeology.com
  ***************************************************************************/
 
 /***************************************************************************
@@ -99,7 +99,6 @@ class PreExPlan():
 
         self.pluginIsActive = False
         self.dockwidget = None
-        self.mgm = None
 
 
     # noinspection PyMethodMayBeStatic
