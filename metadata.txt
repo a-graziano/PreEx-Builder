@@ -3,17 +3,16 @@
 # This file should be included when you package your plugin.# Mandatory items:
 
 [general]
-name=Pre Ex Builder
+name = Pre Ex Builder
 qgisMinimumVersion=3.0
-description=This plugin allows you to create a shp from scratch to digitize the pre ex features, classify them according to type and extrapolate their respective dimensions. It also allows you to calculate the m2 to be excavated for each single feature.
 version=0.1
 author=Alessio Graziano
-email=alessio.graz@gmail.com
+email=a.graziano@lparchaeology.com
 
-about=This plugin allows you to create a shp from scratch to digitize the pre ex features, classify them according to type and extrapolate their respective dimensions. It also allows you to calculate the m2 to be excavated for each single feature.
+about=Pre Ex Builder is a QGIS Plugin to help you create from scratch or manage pre ex data exported from the GPS. It allows you to convert in a memory shapefile a dxf file in order to create quick pre ex plan, it also has a number of functions available to calculate the area, length/diameter of the features, centre points, m2 to dig and an estimate about how many sections/plan we should dig for each features
 
-tracker=http://bugs
-repository=http://repo
+tracker=https://gitlab.com/lparchaeology/pre-ex-builder
+repository=https://gitlab.com/lparchaeology/pre-ex-builder
 # End of mandatory metadata
 
 # Recommended items:
@@ -23,9 +22,9 @@ hasProcessingProvider=no
 # changelog=
 
 # Tags are comma separated with spaces allowed
-tags=python
+tags=python, vector
 
-homepage=http://homepage
+homepage=https://gitlab.com/lparchaeology/pre-ex-builder
 category=Plugins
 icon=icon.png
 # experimental flag
