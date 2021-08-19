@@ -22,10 +22,9 @@ hasProcessingProvider=no
 # changelog=
 
 # Tags are comma separated with spaces allowed
-tags=python, vector
+tags=python, vector, archaeology
 
 homepage=https://gitlab.com/lparchaeology/pre-ex-builder
-category=Plugins
 icon=icon.png
 # experimental flag
 experimental=True
