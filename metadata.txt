@@ -5,7 +5,7 @@
 [general]
 name = Pre Ex Builder
 qgisMinimumVersion=3.0
-version=0.1
+version=0.2
 author=L-P: Archaeology
 email=a.graziano@lparchaeology.com
 
@@ -43,4 +43,3 @@ Category of the plugin: Raster, Vector, Database or Web
 
 # If the plugin can run on QGIS Server.
 server=False
-
