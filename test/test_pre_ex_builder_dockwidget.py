@@ -16,19 +16,19 @@ import unittest
 
 from qgis.PyQt.QtGui import QDockWidget
 
-from pre_ex_plan_dockwidget import PreExPlanDockWidget
+from pre_ex_builder_dockwidget import PreExBuilderDockWidget
 
 from utilities import get_qgis_app
 
 QGIS_APP = get_qgis_app()
 
 
-class PreExPlanDockWidgetTest(unittest.TestCase):
+class PreExBuilderDockWidgetTest(unittest.TestCase):
     """Test dockwidget works."""
 
     def setUp(self):
         """Runs before each test."""
-        self.dockwidget = PreExPlanDockWidget(None)
+        self.dockwidget = PreExBuilderDockWidget(None)
 
     def tearDown(self):
         """Runs after each test."""
@@ -38,8 +38,8 @@ class PreExPlanDockWidgetTest(unittest.TestCase):
         """Test we can click OK."""
         pass
 
+
 if __name__ == "__main__":
-    suite = unittest.makeSuite(PreExPlanDialogTest)
+    suite = unittest.makeSuite(PreExBuilderDialogTest)
     runner = unittest.TextTestRunner(verbosity=2)
     runner.run(suite)
-

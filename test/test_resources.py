@@ -17,8 +17,7 @@ import unittest
 from qgis.PyQt.QtGui import QIcon
 
 
-
-class PreExPlanDialogTest(unittest.TestCase):
+class PreExBuilderDialogTest(unittest.TestCase):
     """Test rerources work."""
 
     def setUp(self):
@@ -31,14 +30,12 @@ class PreExPlanDialogTest(unittest.TestCase):
 
     def test_icon_png(self):
         """Test we can click OK."""
-        path = ':/plugins/PreExPlan/icon.png'
+        path = ':/plugins/PreExBuilder/icon.png'
         icon = QIcon(path)
         self.assertFalse(icon.isNull())
 
+
 if __name__ == "__main__":
-    suite = unittest.makeSuite(PreExPlanResourcesTest)
+    suite = unittest.makeSuite(PreExBuilderResourcesTest)
     runner = unittest.TextTestRunner(verbosity=2)
     runner.run(suite)
-
-
-

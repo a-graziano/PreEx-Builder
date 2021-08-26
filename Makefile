@@ -1,5 +1,5 @@
 #/***************************************************************************
-# PreExPlan
+# PreExBuilder
 #
 # This plugin allows you to create a shp from scratch to digitize the pre ex features, classify them according to type and extrapolate their respective dimensions. It also allows you to calculate the m2 to be excavated for each single feature.
 #							 -------------------
@@ -38,15 +38,15 @@ LOCALES =
 # translation
 SOURCES = \
 	__init__.py \
-	pre_ex_plan.py pre_ex_plan_dockwidget.py
+	pre_ex_builder.py pre_ex_builder_dockwidget.py
 
-PLUGINNAME = pre_ex_plan
+PLUGINNAME = pre_ex_builder
 
 PY_FILES = \
 	__init__.py \
-	pre_ex_plan.py pre_ex_plan_dockwidget.py
+	pre_ex_builder.py pre_ex_builder_dockwidget.py
 
-UI_FILES = pre_ex_plan_dockwidget_base.ui
+UI_FILES = pre_ex_builder_dockwidget_base.ui
 
 EXTRAS = metadata.txt icon.png
 
@@ -84,7 +84,7 @@ default:
 	@echo A Python script, pb_tool provides platform independent management of
 	@echo your plugins and runs anywhere.
 	@echo You can install pb_tool using: pip install pb_tool
-	@echo See https://g-sherman.github.io/plugin_build_tool/ for info. 
+	@echo See https://g-sherman.github.io/plugin_build_tool/ for info.
 
 compile: $(COMPILED_RESOURCE_FILES)
 
