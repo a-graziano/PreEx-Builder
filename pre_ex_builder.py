@@ -50,6 +50,8 @@ from .msgBox.infoPeriod import InfoPer
 from .msgBox.infoPhase import InfoPhase
 from .msgBox.SlotStat import SlotStat
 from .msgBox.SlotTime import SlotTime
+from .msgBox.survey_info import InfoSurvey
+from .survey_script import ScriptWindow
 import os
 import pandas as pd
 import qgis
@@ -653,6 +655,17 @@ class PreExBuilder():
         self.mw = SlotTime()
         self.mw.show()
 
+    def infoCsv(self):
+        self.mw = InfoSurvey()
+        self.mw.show()
+
+    def int(sefl):
+        survey = ScriptWindow()
+        survey.show()
+
+        app.exec()
+        survey = None
+
 
 
     #--------------------------------------------------------------------------
@@ -689,6 +702,7 @@ class PreExBuilder():
             self.dockwidget.pushButton_13.clicked.connect(self.slot_stat)
             self.dockwidget.pushButton_14.clicked.connect(self.slot_clock)
             self.dockwidget.pushButton_15.clicked.connect(self.interpr_column)
+            self.dockwidget.pushButton_16.clicked.connect(self.int)
             self.dockwidget.pushButton_17.clicked.connect(self.convertDXF)
             self.dockwidget.pushButton_18.clicked.connect(self.slot_shp)
             self.dockwidget.pushButton_19.clicked.connect(self.style_slot)
@@ -697,6 +711,7 @@ class PreExBuilder():
             self.dockwidget.pushButton_22.clicked.connect(self.duplicate_l)
             self.dockwidget.pushButton_23.clicked.connect(self.selected_feat_copy)
             self.dockwidget.pushButton_25.clicked.connect(self.est_secPlan)
+            self.dockwidget.pushButton_24.clicked.connect(self.infoCsv)
             self.dockwidget.pushButton_26.clicked.connect(self.style_phasing)
             self.dockwidget.pushButton_27.clicked.connect(self.style_feat_period)
 
