@@ -57,5 +57,9 @@ The id button generated an ID follow the row numbers
 
 # Manage Attribute Table Box
 
-This buttons allows the user to add the columns in the pre ex layer if not exist
+This button allows the user to add the columns in the pre ex layer if not exist
+
+# Post-ex Box
+
+This button allows the user to creat quick post-ex plan
 
