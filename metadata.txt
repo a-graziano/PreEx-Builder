@@ -5,7 +5,7 @@
 [general]
 name = Pre Ex Builder
 qgisMinimumVersion=3.0
-version=0.2
+version=0.3
 author=L-P: Archaeology
 email=a.graziano@lparchaeology.com
 
