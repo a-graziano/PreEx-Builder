@@ -51,7 +51,7 @@ from .msgBox.infoPhase import InfoPhase
 from .msgBox.SlotStat import SlotStat
 from .msgBox.SlotTime import SlotTime
 from .msgBox.survey_info import InfoSurvey
-from .survey_script import ScriptWindow
+from .survey.survey_script import ScriptWindow
 import os
 import pandas as pd
 import qgis
@@ -663,7 +663,7 @@ class PreExBuilder():
         survey = ScriptWindow()
         survey.show()
 
-        app.exec()
+        survey.exec_()
         survey = None
 
 
