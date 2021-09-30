@@ -39,7 +39,7 @@ class ScriptWindow(QDialog):
 
         self.setWindowTitle('Convert Survey')
         self.setGeometry(150,150,400,400)
-        self.setStyleSheet("background-color: lightsteelblue; font: Tahoma 12px; color: #232323")
+        self.setStyleSheet("background-color: white; font: Tahoma 12px; color: #232323")
         self.UiComponents()
 
 
@@ -53,7 +53,7 @@ class ScriptWindow(QDialog):
         # add a text browser for print log
         self.textbox = QTextBrowser()
         self.textbox.resize(280,200)
-        self.textbox.setStyleSheet("background-color: white; border: 2px solid lightsteelblue; padding: 2px; font: Arial 12px; color: #232323")
+        self.textbox.setStyleSheet("background-color: white; border: 2px solid #757575; padding: 2px; font: Arial 12px; color: #232323")
 
         #set the layout
         windowlayout.addWidget(self.horizontalGroupBox)
@@ -83,14 +83,15 @@ class ScriptWindow(QDialog):
         self.check2.clicked.connect(self.buttonClick2)
         self.siteLabel = QLabel(self)
         self.siteLabel.setText('Site Code:')
+        self.siteLabel.setStyleSheet("color: #F28500; font: Arial 10px")
         self.site = QLineEdit()
-        self.site.setStyleSheet("background-color: azure; border: 2px solid lightsteelblue; padding: 2px; color: #232323")
+        self.site.setStyleSheet("background-color: snow; border: 2px solid #757575; padding: 2px; color: #232323")
 
         self.creatorLabel = QLabel(self)
         self.creatorLabel.setText('Creator: ')
-        self.creatorLabel.setStyleSheet("color: #232323; font: Arial 10px")
+        self.creatorLabel.setStyleSheet("color: #F28500; font: Arial 10px")
         self.creator = QLineEdit()
-        self.creator.setStyleSheet("background-color: azure; border: 2px solid lightsteelblue; padding: 2px;color: #232323 ")
+        self.creator.setStyleSheet("background-color: snow; border: 2px solid #757575; padding: 2px;color: #232323 ")
 
 
 
@@ -100,7 +101,7 @@ class ScriptWindow(QDialog):
 
         glayout.setGeometry(QRect(1,1,300,300))
         #set style sheets for buttons ( min-width: 6em; )
-        stylesheets = "background-color: lightslategrey; border-style: outset; border-width: 2px; border-radius: 10px; border-color: dimgray;font: Arial 10px; padding: 1px; color: white;"
+        stylesheets = "background-color: snow; border-style: outset; border-width: 2px; border-radius: 10px; border-color: #757575;font: Arial-Bold 10px; padding: 1px; color: #2C3539;"
         pushbutton1.setStyleSheet(stylesheets)
         self.pushbutton2.setStyleSheet(stylesheets)
         self.pushbutton3.setStyleSheet(stylesheets)
