@@ -183,7 +183,7 @@ class ScriptWindow(QDialog):
         ScriptWindow.vlyr.startEditing()
         for key in groups.groups.keys():
                     if key[1] not in  ['lvl', 'bpt', 'tgt', 'pho', 'stn', '','spf', 'coffin', 'tch', 'tpt']:
-                        identifier = re.sub('\D', '',key[0])
+                        identifier = re.sub(r'\D', '',key[0])
                         category = key[1]
                         for k, v in dicty.items():
                             if category in v:
