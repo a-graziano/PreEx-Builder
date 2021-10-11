@@ -1,45 +1,22 @@
-# This file contains metadata for your plugin.
-
-# This file should be included when you package your plugin.# Mandatory items:
-
 [general]
-name = Pre Ex Builder
+
+# Mandatory metadata
+name=PreExBuilder
+description=Pre Ex Builder is a QGIS Plugin to help you create from scratch or manage pre ex data exported from the GPS.
 qgisMinimumVersion=3.0
 version=0.3
-author=L-P: Archaeology
+author=L - P : Archaeology
 email=a.graziano@lparchaeology.com
-
 about=Pre Ex Builder is a QGIS Plugin to help you create from scratch or manage pre ex data exported from the GPS. It allows you to convert in a memory shapefile a dxf file in order to create quick pre ex plan, it also has a number of functions available to calculate the area, length/diameter of the features, centre points, m2 to dig and an estimate about how many sections/plan we should dig for each features
-
 tracker=https://gitlab.com/lparchaeology/pre-ex-builder
 repository=https://gitlab.com/lparchaeology/pre-ex-builder
 # End of mandatory metadata
 
-# Recommended items:
-
 hasProcessingProvider=no
-# Uncomment the following line and add your changelog:
-# changelog=
-
-# Tags are comma separated with spaces allowed
 tags=python, vector, archaeology
-
 homepage=https://gitlab.com/lparchaeology/pre-ex-builder
 category=Plugins
 icon=icon.png
-# experimental flag
 experimental=True
-
-# deprecated flag (applies to the whole plugin, not just a single version)
 deprecated=False
-
-# Since QGIS 3.8, a comma separated list of plugins to be installed
-# (or upgraded) can be specified.
-# Check the documentation for more information.
-# plugin_dependencies=
-
-Category of the plugin: Raster, Vector, Database or Web
-# category=
-
-# If the plugin can run on QGIS Server.
 server=False
