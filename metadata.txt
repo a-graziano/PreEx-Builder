@@ -4,7 +4,7 @@
 name=PreExBuilder
 description=Pre Ex Builder is a QGIS Plugin to help you create from scratch or manage pre ex data exported from the GPS.
 qgisMinimumVersion=3.0
-version=0.3
+version=0.4
 author=L - P : Archaeology
 email=a.graziano@lparchaeology.com
 about=Pre Ex Builder is a QGIS Plugin to help you create from scratch or manage pre ex data exported from the GPS. It allows you to convert in a memory shapefile a dxf file in order to create quick pre ex plan, it also has a number of functions available to calculate the area, length/diameter of the features, centre points, m2 to dig and an estimate about how many sections/plan we should dig for each features
