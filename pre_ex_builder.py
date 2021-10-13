@@ -237,7 +237,7 @@ class PreExBuilder():
 
 #Generate a new Pre Ex memory layer
     def new_shp(self):
-        vl = QgsVectorLayer("polygon", "(mitig_area)_PreExBuilder", "memory")
+        vl = QgsVectorLayer("PolygonZ?crs=epsg:27700", "(mitig_area)_PreExBuilder", "memory")
 
         vl.startEditing()
 
@@ -267,7 +267,7 @@ class PreExBuilder():
 
 #Generate a new SLOT memory layer
     def slot_shp(self):
-        vl = QgsVectorLayer("polygon", "(mitig_area)_Slot", "memory")
+        vl = QgsVectorLayer("PolygonZ?crs=epsg:27700", "(mitig_area)_Slot", "memory")
 
         pr = vl.dataProvider()
         pr.addAttributes([QgsField("site", QVariant.String, 'string',30),
@@ -280,7 +280,7 @@ class PreExBuilder():
 
 #Generate a new LOE memory layer
     def loe_shp(self):
-        vl = QgsVectorLayer("polygon", "(mitig_area)_LOE", "memory")
+        vl = QgsVectorLayer("PolygonZ?crs=epsg:27700", "(mitig_area)_LOE", "memory")
 
         pr = vl.dataProvider()
         pr.addAttributes([QgsField("site", QVariant.String,'string',30),
