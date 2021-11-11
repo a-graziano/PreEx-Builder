@@ -659,13 +659,24 @@ class PreExBuilder():
         self.mw = InfoSurvey()
         self.mw.show()
 
-    def int(sefl):
+
+# Functions to call the survey script
+    def int(self):
         survey = ScriptWindow()
         survey.show()
 
         survey.exec_()
         survey = None
 
+# Functions to stylise the DXF layer
+    def stylePX(self):
+        layer = iface.activeLayer()
+
+        qml_path = os.path.join(os.path.dirname(__file__), 'style/plan_pl.qml')
+
+        layer.loadNamedStyle(qml_path)
+
+        QgsProject.instance().addMapLayer(layer)
 
 
     #--------------------------------------------------------------------------
@@ -714,6 +725,7 @@ class PreExBuilder():
             self.dockwidget.pushButton_24.clicked.connect(self.infoCsv)
             self.dockwidget.pushButton_26.clicked.connect(self.style_phasing)
             self.dockwidget.pushButton_27.clicked.connect(self.style_feat_period)
+            self.dockwidget.pushButton_28.clicked.connect(self.stylePX)
 
             # show the dockwidget
             # TODO: fix to allow choice of dock location
