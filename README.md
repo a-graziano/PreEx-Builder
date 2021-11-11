@@ -61,5 +61,5 @@ This button allows the user to add the columns in the pre ex layer if not exist
 
 # Post-ex Box
 
-This button allows the user to creat quick post-ex plan
+This buttons allows the user to creat quick post-ex plan and apply a style to the exported DXF (post_ex data)
 
