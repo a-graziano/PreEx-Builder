@@ -1,65 +1,70 @@
 # PreExBuilder
-This plugin allows you to manage dxf files that are exported from GPS, convert them to shapefile and polygon and also it allows you to create a shp from scratch to digitize the pre ex features, classify them according to type and extrapolate their respective dimensions, and to create a polygon layer in which it shows the archaeological interventions of the day.
+<details>
+<summary>Table of Contents</summary>
 
+- [Overview](#overview)
+- [Features](#features)
+  - [Memory Layer Box](#memory-layer-box)
+  - [Classification Box](#classification-box)
+  - [Manage DXF Box](#manage-dxf-box)
+  - [Geometry Box](#geometry-box)
+  - [Metrics Box](#metrics-box)
+  - [Extra Box](#extra-box)
+  - [Manage Attribute Table Box](#manage-attribute-table-box)
+  - [Post-ex Box](#post-ex-box)
+- [Usage](#usage)
+- [Installation](#installation)
+- [Contributing](#contributing)
+- [License](#license)
 
-# Memory Layer Box
+</details>
 
-Generates a memory file where the columns are already created and displays it on the canvas
+## Overview
 
-<ul>
-	<li>Pre Ex</li>
-	<li>Slot</li>
-	<li>LOE</li>
+The PreExBuilder plugin simplifies the management of DXF files exported from GPS. It aids in converting these files into shapefiles and polygons. Additionally, it assists in creating shapefiles from scratch, allowing digitization of pre-existing features. The tool provides classification by type, dimension extrapolation, and the creation of a polygon layer highlighting archaeological interventions on a specific day.
 
-</ul>
+## Features
 
-It is possible to duplicate the active layer and duplicate the selected features of the active layer in to a memory layer
+### Memory Layer Box
 
+Generates a memory file with predefined columns such as Pre Ex, Slot, LOE. Allows duplication of active layers and selected features into a memory layer.
 
-# Classification Box
+### Classification Box
 
-Classifies the shp according to interpretation
-	Linear, Pit, Posthole, Cremation, Grave, Structure, Spread, Furrow, Unclear
-	
+Classifies shapefiles based on interpretation (e.g., Linear, Pit, Posthole) and status (complete, ongoing, to be done), as well as time-based classifications (0 to +2 days).
 
-Classifies the shp according to the status
-	complete, ongoing, to be done
-	
+### Manage DXF Box
 
-Classifies the shp according to the time
-	attribute 1 is 0 to 0.5 day, 2 is 0.5 to 1 day, 3 is 1 to 2 days, 4 is +2 days
-	
+Converts DXF files into memory shapefiles and polygon memory shapefiles. Adds an 'Interpr' column for efficient classification of the new polygon shapefile.
 
-# Manage DXF Box
+### Geometry Box
 
-Convert the dxf file to a memory shapefile and convert it in a polygon memory shapefile
+Calculates area, length, and diameter of various features.
 
-add the Interpr column to be able to classify(Classify PreEx Button) the new polygon shapfile
+### Metrics Box
 
+Estimates excavation area (in square meters) based on percentage allocation for different elements (e.g., Linear 10%, Pit 50%). Also, assists in estimating the number of sections and plans to be produced (work in progress).
 
+### Extra Box
 
-# Geometry Box
+Includes functionality to generate x,y coordinates for each polygon feature (Centroids button) and assign unique IDs based on row numbers (ID button).
 
-This two buttons calculate the area, length and diameter of the features
+### Manage Attribute Table Box
 
+Enables users to add columns in the pre-existing layer if they do not exist.
 
-# Metrics Box
+### Post-ex Box
 
-Calculates how many m2 will have to dig for each element based on the respective percentage (e.g. Linear 10%, Pit 50%, etc.)
+Facilitates the quick creation of post-ex plans and applies styles to exported DXF files (post_ex data).
 
-Make an estimate of how many sections and plans will be produced(work in progress)
+## Usage
 
+[Add usage instructions or examples here]
 
-# Extra Box
+## Installation
 
-The Centroids button generates the x,y for each polygon features
-The id button generated an ID follow the row numbers
+[Add installation steps or requirements here]
 
-# Manage Attribute Table Box
+## Contributing
 
-This button allows the user to add the columns in the pre ex layer if not exist
-
-# Post-ex Box
-
-This buttons allows the user to creat quick post-ex plan and apply a style to the exported DXF (post_ex data)
-
+[Provide guidelines for contributing if applicable]
