@@ -12,10 +12,6 @@
   - [Extra Box](#extra-box)
   - [Manage Attribute Table Box](#manage-attribute-table-box)
   - [Post-ex Box](#post-ex-box)
-- [Usage](#usage)
-- [Installation](#installation)
-- [Contributing](#contributing)
-- [License](#license)
 
 </details>
 
@@ -56,15 +52,3 @@ Enables users to add columns in the pre-existing layer if they do not exist.
 ### Post-ex Box
 
 Facilitates the quick creation of post-ex plans and applies styles to exported DXF files (post_ex data).
-
-## Usage
-
-[Add usage instructions or examples here]
-
-## Installation
-
-[Add installation steps or requirements here]
-
-## Contributing
-
-[Provide guidelines for contributing if applicable]
